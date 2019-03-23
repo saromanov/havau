@@ -21,3 +21,13 @@ func New(c *api.Config, token string) (*Havau, error) {
 		client: client,
 	}, nil
 }
+
+// Write provides writing of the kv to the attached Vault store
+func (h *Havau) Write(path string, kv map[string]interface{}) error {
+	c := h.client.Logical()
+	_, err := c.Write(path, kv)
+	if err != nil {
+		return err
+	}
+	return nil
+}
