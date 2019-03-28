@@ -5,6 +5,8 @@ import (
 	"github.com/pkg/errors"
 )
 
+var errNoToken = errors.New("token is not defined")
+
 // Havau defines main struct for the project
 type Havau struct {
 	client *api.Client
@@ -12,6 +14,9 @@ type Havau struct {
 
 // New provides initialization of the package
 func New(c *api.Config, token string) (*Havau, error) {
+	if token == "" {
+		return nil, errNoToken
+	}
 	client, err := api.NewClient(c)
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to initialize Vault client")
@@ -32,7 +37,7 @@ func (h *Havau) Write(path string, kv map[string]interface{}) error {
 	return nil
 }
 
-// Read provides reading from lv store
+// Read provides reading from kv store
 func (h *Havau) Read(path string) (map[string]interface{}, error) {
 	c := h.client.Logical()
 	s, err := c.Read(path)
