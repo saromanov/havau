@@ -31,3 +31,13 @@ func (h *Havau) Write(path string, kv map[string]interface{}) error {
 	}
 	return nil
 }
+
+// Read provides reading from lv store
+func (h *Havau) Read(path string) (map[string]interface{}, error) {
+	c := h.client.Logical()
+	s, err := c.Read(path)
+	if err != nil {
+		return nil, err
+	}
+	return s.Data, nil
+}
