@@ -1,2 +1,2 @@
 # havau
-Yet another library for Hashicorp Valult
+Yet another library for Hashicorp Vault

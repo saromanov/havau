@@ -2,10 +2,10 @@ package havau
 
 import (
 	"github.com/hashicorp/vault/api"
-	"github.com/pkg/errors"
+	"golang.org/x/xerrors"
 )
 
-var errNoToken = errors.New("token is not defined")
+var errNoToken = xerrors.New("token is not defined")
 
 // Havau defines main struct for the project
 type Havau struct {
@@ -19,7 +19,7 @@ func New(c *api.Config, token string) (*Havau, error) {
 	}
 	client, err := api.NewClient(c)
 	if err != nil {
-		return nil, errors.Wrap(err, "unable to initialize Vault client")
+		return nil, xerrors.Errorf("unable to initialize Vault client: %v", err)
 	}
 	client.SetToken(token)
 	return &Havau{
